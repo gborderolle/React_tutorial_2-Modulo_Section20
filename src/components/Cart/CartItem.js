@@ -1,7 +1,34 @@
+import { useSelector, useDispatch } from 'react-redux'; // llama a los métodos del redux y trae las propiedades
+import { cartActions } from '../../store/cart-slice'; // llama a los métodos del redux
+
 import classes from './CartItem.module.css';
 
 const CartItem = (props) => {
-  const { title, quantity, total, price } = props.item;
+  const { id, title, quantity, total, price } = props.item;
+
+  const dispatch = useDispatch(); // llama a los métodos del redux
+  // const counterRedux = useSelector((state) => state.cart.totalQuantity); // muestra la propiedad totalQuantity del redux
+  // const totalAmountRedux = useSelector((state) => state.cart.totalAmount); // muestra la propiedad totalAmount del redux
+
+  const addItemHandler = () => {
+    dispatch(cartActions.addItem(
+      {
+        id, title, price
+      }
+    ));
+  };
+
+  const removeItemHandler = () => {
+    dispatch(cartActions.removeItem(id));
+  };
+
+  const incrementHandler = () => {
+    dispatch(cartActions.increment());
+  };
+
+  const decrementHandler = () => {
+    dispatch(cartActions.decrement());
+  };
 
   return (
     <li className={classes.item}>
@@ -17,8 +44,8 @@ const CartItem = (props) => {
           x <span>{quantity}</span>
         </div>
         <div className={classes.actions}>
-          <button>-</button>
-          <button>+</button>
+          <button onClick={removeItemHandler}>-</button>
+          <button onClick={addItemHandler}>+</button>
         </div>
       </div>
     </li>

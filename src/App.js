@@ -5,11 +5,11 @@ import Layout from './components/Layout/Layout';
 import Products from './components/Shop/Products';
 
 function App() {
-  const isHidden = useSelector((state) => state.cart.isHidden);
+  const isHiddenRedux = useSelector((state) => state.ui.isHidden); // muestra la propiedad isHidden del redux
 
   return (
     <Layout>
-      {!isHidden && <Cart />}
+      {!isHiddenRedux && <Cart />}
       <Products />
     </Layout>
   );
