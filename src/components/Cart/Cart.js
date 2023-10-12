@@ -1,26 +1,27 @@
-import { useSelector } from 'react-redux'; // llama a los métodos del redux y trae las propiedades
+import { useSelector } from 'react-redux';
+// llama a los métodos del redux y trae las propiedades
 
 import Card from '../UI/Card';
+import classes from './Cart.module.css';
 import CartItem from './CartItem';
 
-import classes from './Cart.module.css';
-
 const Cart = (props) => {
-  const itemsRedux = useSelector((state) => state.cart.items); // muestra la propiedad totalQuantity del redux
+  const cartItems = useSelector((state) => state.cart.items);
+  // muestra la propiedad totalQuantity del redux
 
   return (
     <Card className={classes.cart}>
-      <h2>Tu carrito de compras</h2>
+      <h2>Your Shopping Cart</h2>
       <ul>
-        {itemsRedux.map(item => (
+        {cartItems.map((item) => (
           <CartItem
             key={item.id}
             item={{
               id: item.id,
-              title: item.title,
+              title: item.name,
               quantity: item.quantity,
               total: item.totalPrice,
-              price: item.price
+              price: item.price,
             }}
           />
         ))}

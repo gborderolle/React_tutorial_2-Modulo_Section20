@@ -1,60 +1,50 @@
 import { createSlice } from '@reduxjs/toolkit';
 
-const initialCartState = {
-  items: [],
-  totalQuantity: 0,
-  totalAmount: 0
-};
 const cartSlice = createSlice({
   name: 'cart',
-  initialState: initialCartState,
+  initialState: {
+    items: [],
+    totalQuantity: 0,
+    changed: false,
+  },
   reducers: {
-    addItem(state, action) {
+    replaceCart(state, action) {
+      state.totalQuantity = action.payload.totalQuantity; // cualquier parámetro que se mande
+      state.items = action.payload.items;
+    },
+    addItemToCart(state, action) {
       const newItem = action.payload;
-
-      const existingItem = state.items.find(item => item.id === newItem.id);
+      const existingItem = state.items.find((item) => item.id === newItem.id);
       state.totalQuantity++;
-      state.totalAmount += newItem.price;
+      state.changed = true;
       if (!existingItem) {
         state.items.push({
           id: newItem.id,
-          title: newItem.title,
           price: newItem.price,
           quantity: 1,
           totalPrice: newItem.price,
+          name: newItem.title,
         });
       } else {
         existingItem.quantity++;
         existingItem.totalPrice = existingItem.totalPrice + newItem.price;
       }
     },
-    removeItem(state, action) {
+    removeItemFromCart(state, action) {
       const id = action.payload;
-      const existingItem = state.items.find(item => item.id === id);
-
+      const existingItem = state.items.find((item) => item.id === id);
       state.totalQuantity--;
+      state.changed = true;
       if (existingItem.quantity === 1) {
-        state.items = state.items.filter(item => item.id !== id);
+        state.items = state.items.filter((item) => item.id !== id);
       } else {
         existingItem.quantity--;
         existingItem.totalPrice = existingItem.totalPrice - existingItem.price;
-
-        state.totalAmount = - existingItem.price;
       }
-    },
-
-    increment(state) {
-      state.totalQuantity++;
-    },
-    decrement(state) {
-      state.totalQuantity--;
-    },
-    increase(state, action) {
-      state.totalQuantity = state.totalQuantity + action.payload; // cualquier parámetro que se mande
     },
   },
 });
 
 export const cartActions = cartSlice.actions;
 
-export default cartSlice.reducer;
+export default cartSlice;

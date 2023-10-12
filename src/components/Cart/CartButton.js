@@ -1,20 +1,20 @@
-import { useSelector, useDispatch } from 'react-redux'; // llama a los métodos del redux y trae las propiedades
-import { uiActions } from '../../store/ui-slice';
+import { useDispatch, useSelector } from 'react-redux';
 
+import { uiActions } from '../../store/ui-slice';
 import classes from './CartButton.module.css';
 
 const CartButton = (props) => {
   const dispatch = useDispatch(); // llama a los métodos del redux
-  const counterRedux = useSelector((state) => state.cart.totalQuantity); // muestra la propiedad totalQuantity del redux
+  const cartQuantity = useSelector((state) => state.cart.totalQuantity); // muestra la propiedad totalQuantity del redux
 
-  const toggleHandler = () => {
+  const toggleCartHandler = () => {
     dispatch(uiActions.toogleUI());
   };
 
   return (
-    <button className={classes.button} onClick={toggleHandler}>
-      <span>Carrito</span>
-      <span className={classes.badge}>{counterRedux}</span>
+    <button className={classes.button} onClick={toggleCartHandler}>
+      <span>My Cart</span>
+      <span className={classes.badge}>{cartQuantity}</span>
     </button>
   );
 };
